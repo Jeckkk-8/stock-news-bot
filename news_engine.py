@@ -3,6 +3,9 @@ from newspaper import Article
 from deep_translator import GoogleTranslator
 from config import RSS_FEEDS, STOCKS
 
+translator = GoogleTranslator(source="auto", target="th")
+
+
 def get_article_text(url):
 
     try:
@@ -10,12 +13,7 @@ def get_article_text(url):
         article.download()
         article.parse()
 
-        text = article.text
-
-        if len(text) < 200:
-            return None
-
-        return text
+        return article.text
 
     except:
         return None
@@ -33,12 +31,9 @@ def summarize(text):
 def translate(text):
 
     try:
-        thai = GoogleTranslator(source="auto", target="th").translate(text)
-
-        return thai
+        return translator.translate(text)
 
     except:
-
         return text
 
 
@@ -61,18 +56,19 @@ def fetch_news():
 
                     article = get_article_text(link)
 
-                    if article is None:
+                    if not article:
                         continue
 
                     summary = summarize(article)
 
-                    thai_summary = translate(summary)
+                    title_th = translate(title)
+                    summary_th = translate(summary)
 
                     results.append({
 
                         "ticker": stock,
-                        "title": title,
-                        "summary": thai_summary,
+                        "title": title_th,
+                        "summary": summary_th,
                         "link": link
 
                     })
