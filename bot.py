@@ -43,7 +43,7 @@ def morning_report():
 
             msg+=f"{m}\n"
 
-        send(msg)
+    send(msg)
 
 
 def breaking_news():
