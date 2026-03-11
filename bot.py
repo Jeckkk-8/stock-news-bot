@@ -41,14 +41,17 @@ def bot_loop():
             sentiment = analyze(item["title"])
 
             msg=f"""
-⚡ BREAKING MARKET NEWS
+⚡ ข่าวหุ้น
 
 🏢 {item['ticker']}
 
 {item['title']}
 
-📊 Sentiment
-{sentiment}
+📄 สรุปข่าว
+{item['summary']}
+
+🔗 Source
+{item['link']}
 """
 
             send(msg)
