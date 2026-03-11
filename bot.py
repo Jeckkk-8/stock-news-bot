@@ -47,6 +47,7 @@ def morning_report():
 
 if len(SEEN_NEWS)>500:
     SEEN_NEWS.clear()
+
 def breaking_news():
 
     news = fetch_news()
