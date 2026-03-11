@@ -4,16 +4,17 @@ import threading
 import os
 from flask import Flask
 
+from config import TOKEN,CHAT_ID
 from news_engine import fetch_news
 from sentiment_engine import analyze
 from alpha_brief import generate
-from config import TOKEN,CHAT_ID
+from market_engine import premarket_scan
 
-app = Flask(__name__)
+app=Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Investor Terminal Running"
+    return "Investor Terminal v6 running"
 
 def send(msg):
 
@@ -25,27 +26,42 @@ def send(msg):
     })
 
 
-def bot_loop():
+def morning_report():
 
-    print("Investor Terminal started")
+    brief=generate()
 
-    brief = generate()
     send(brief)
 
-    while True:
+    movers=premarket_scan()
 
-        news = fetch_news()
+    if movers:
 
-        for item in news:
+        msg="🚨 Premarket Movers\n\n"
 
-            sentiment = analyze(item["title"])
+        for m in movers:
 
-            msg=f"""
+            msg+=f"{m}\n"
+
+        send(msg)
+
+
+def breaking_news():
+
+    news=fetch_news()
+
+    for item in news:
+
+        sentiment=analyze(item["summary"])
+
+        msg=f"""
 ⚡ ข่าวด่วนตลาดหุ้น
 
 🏢 {item['ticker']}
 
 📰 {item['title']}
+
+📊 Sentiment
+{sentiment}
 
 📄 สรุปข่าว
 {item['summary']}
@@ -54,7 +70,18 @@ def bot_loop():
 {item['link']}
 """
 
-            send(msg)
+        send(msg)
+
+
+def bot_loop():
+
+    print("Investor Terminal v6 started")
+
+    morning_report()
+
+    while True:
+
+        breaking_news()
 
         time.sleep(300)
 
@@ -63,6 +90,6 @@ if __name__=="__main__":
 
     threading.Thread(target=bot_loop).start()
 
-    port=int(os.environ.get("PORT",8080))
+    port=int(os.environ.get("PORT",10000))
 
     app.run(host="0.0.0.0",port=port)
