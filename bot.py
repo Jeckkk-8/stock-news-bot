@@ -12,7 +12,7 @@ from alpha_brief import generate
 from market_engine import premarket_scan
 
 if link in SEEN_NEWS:
-     continue
+continue
 
 SEEN_NEWS.add(link)
 
