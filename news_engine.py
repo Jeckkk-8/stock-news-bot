@@ -45,7 +45,9 @@ def fetch_news():
 
             for stock in STOCKS:
 
-                if stock.lower() in title.lower():
+                company=COMPANY_NAMES[stock]
+
+                if stock.lower() in title.lower() or company in title.lower():
 
                     try:
 
