@@ -2,29 +2,37 @@ from datetime import datetime
 
 def generate():
 
-    today=datetime.now().strftime("%Y-%m-%d")
+    today=datetime.now().strftime("%d %B %Y")
 
     return f"""
-🌅 MORNING ALPHA BRIEF
+🌅 สรุปข่าวตลาดก่อนเปิด (Morning Alpha Brief)
 
-Date: {today}
+📅 วันที่ {today}
 
-AI / Semiconductor
-• NVDA demand driven by hyperscaler AI spending
-• TSM production capacity expansion
+🧠 ธีมตลาดวันนี้
+• การลงทุนด้าน AI และ Data Center ยังคงเป็นธีมหลักของตลาด
+• ความต้องการชิป AI ส่งผลบวกต่อกลุ่ม Semiconductor
+• บริษัท Cloud ยังคงเพิ่มงบลงทุนโครงสร้างพื้นฐาน AI
 
-Cloud / Cybersecurity
-• MSFT AI integration continues
-• CRWD security demand strong
+🔬 กลุ่มเทคโนโลยี / AI
+• NVDA – ความต้องการ GPU สำหรับ AI ยังแข็งแกร่ง
+• MSFT – การผสาน AI เข้ากับผลิตภัณฑ์ Cloud
+• AVGO – ชิปสำหรับ Data Center และ Networking เติบโต
 
-Healthcare
-• LLY obesity drug growth
+🛡 Cybersecurity
+• CRWD และ PLTR ได้ประโยชน์จากการใช้ AI ในระบบความปลอดภัย
 
-Key Watchlist
-NVDA / AVGO / PLTR / MSFT
+💊 Healthcare
+• LLY ได้แรงหนุนจากยอดขายยากลุ่ม GLP-1
 
-Market Themes
-• AI Capex
-• Semiconductor supply
-• Defense tech
+⚡ พลังงาน / Data Center
+• CEG และ VRT ได้ประโยชน์จากการเติบโตของ Data Center
+
+👀 หุ้นที่ควรจับตา
+NVDA / AVGO / PLTR / MSFT / TSM
+
+📊 ธีมการลงทุน
+AI Infrastructure
+Semiconductor Supply Chain
+Energy for Data Centers
 """
