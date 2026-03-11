@@ -3,6 +3,14 @@ from newspaper import Article
 from deep_translator import GoogleTranslator
 from config import RSS_FEEDS,STOCKS
 
+SOURCE_MAP={
+"reuters":"Reuters",
+"cnbc":"CNBC",
+"yahoo":"Yahoo Finance",
+"seekingalpha":"Seeking Alpha",
+"investing":"Investing.com"
+}
+
 COMPANY_NAMES={
 "NVDA":"nvidia",
 "AMZN":"amazon",
@@ -59,15 +67,23 @@ def fetch_news():
 
                         summary=summarize(text)
 
-                        results.append({
+                        source="News"
 
-                        "ticker":stock,
-                        "title":translator.translate(title),
-                        "summary":translator.translate(summary),
-                        "link":link
+                     for key in SOURCE_MAP:
 
-                        })
+                         if key in link.lower():
 
+                            source=SOURCE_MAP[key]
+
+                            results.append({
+
+                            "ticker":stock,
+                            "title":title_th,
+                            "summary":summary_th,
+                            "link":link,
+                            "source":source
+
+})
                     except:
                         pass
 
