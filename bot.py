@@ -85,7 +85,7 @@ def breaking_news():
 
         now = datetime.now().strftime("%H:%M")
 
-        msg=f"""
+        msg = f"""
 ⚡ ข่าวด่วนตลาดหุ้น
 
 🕒 {now}
