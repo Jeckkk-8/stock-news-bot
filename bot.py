@@ -5,56 +5,58 @@ import os
 from datetime import datetime
 from flask import Flask
 
-from config import TOKEN,CHAT_ID
+from config import TOKEN, CHAT_ID
 from news_engine import fetch_news
 from sentiment_engine import analyze
 from alpha_brief import generate
 from market_engine import premarket_scan
 
-app=Flask(__name__)
+app = Flask(__name__)
 
 @app.route("/")
 def home():
     return "Investor Terminal v6 running"
 
+
 def send(msg):
 
-    url=f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
-    requests.post(url,data={
-        "chat_id":CHAT_ID,
-        "text":msg
+    requests.post(url, data={
+        "chat_id": CHAT_ID,
+        "text": msg
     })
 
 
 def morning_report():
 
-    brief=generate()
+    brief = generate()
 
     send(brief)
 
-    movers=premarket_scan()
+    movers = premarket_scan()
 
     if movers:
 
-        msg="🚨 Premarket Movers\n\n"
+        msg = "🚨 Premarket Movers\n\n"
 
         for m in movers:
+            msg += f"{m}\n"
 
-            msg+=f"{m}\n"
-
-    send(msg)
+        send(msg)
 
 
 def breaking_news():
 
-    news=fetch_news()
+    news = fetch_news()
 
     for item in news:
 
-        now=datetime.now().strftime("%H:%M")
+        sentiment = analyze(item["summary"])
 
-msg=f"""
+        now = datetime.now().strftime("%H:%M")
+
+        msg = f"""
 ⚡ ข่าวด่วนตลาดหุ้น
 
 🕒 {now}
@@ -84,15 +86,18 @@ def bot_loop():
 
     while True:
 
-        breaking_news()
+        try:
+            breaking_news()
+        except Exception as e:
+            print("ERROR:", e)
 
         time.sleep(300)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
 
     threading.Thread(target=bot_loop).start()
 
-    port=int(os.environ.get("PORT",10000))
+    port = int(os.environ.get("PORT", 10000))
 
-    app.run(host="0.0.0.0",port=port)
+    app.run(host="0.0.0.0", port=port)
