@@ -17,7 +17,7 @@ def home():
 
 def send(msg):
 
-    url=f"https://api.telegram.org/bot{8692112101:AAHa6X-3bCXpzRRsrbNGFNAM9-W6nLGNaHo}/sendMessage"
+    url=f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
     requests.post(url,data={
         "chat_id":CHAT_ID,
