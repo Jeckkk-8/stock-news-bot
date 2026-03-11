@@ -10,13 +10,33 @@ from news_engine import fetch_news
 from sentiment_engine import analyze
 from alpha_brief import generate
 from market_engine import premarket_scan
-SEEN_NEWS=set()
+
+if link in SEEN_NEWS:
+    continue
+
+SEEN_NEWS.add(link)
+
+save_seen(link)
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     return "Investor Terminal v6 running"
 
+def load_seen():
+
+    try:
+        with open("sent_news.txt","r") as f:
+            return set(f.read().splitlines())
+
+    except:
+        return set()
+
+
+def save_seen(link):
+
+    with open("sent_news.txt","a") as f:
+        f.write(link+"\n")
 
 def send(msg):
 
