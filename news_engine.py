@@ -1,76 +1,54 @@
 import feedparser
 from newspaper import Article
 from deep_translator import GoogleTranslator
-from config import RSS_FEEDS, STOCKS
+from config import RSS_FEEDS,STOCKS
 
-translator = GoogleTranslator(source="auto", target="th")
-
-
-def get_article_text(url):
-
-    try:
-        article = Article(url)
-        article.download()
-        article.parse()
-
-        return article.text
-
-    except:
-        return None
-
+translator=GoogleTranslator(source="auto",target="th")
 
 def summarize(text):
 
-    sentences = text.split(". ")
+    sentences=text.split(". ")
 
-    summary = ". ".join(sentences[:5])
-
-    return summary
-
-
-def translate(text):
-
-    try:
-        return translator.translate(text)
-
-    except:
-        return text
+    return ". ".join(sentences[:5])
 
 
 def fetch_news():
 
-    results = []
+    results=[]
 
     for feed in RSS_FEEDS:
 
-        data = feedparser.parse(feed)
+        data=feedparser.parse(feed)
 
         for entry in data.entries:
 
-            title = entry.title
-            link = entry.link
+            title=entry.title
+            link=entry.link
 
             for stock in STOCKS:
 
                 if stock.lower() in title.lower():
 
-                    article = get_article_text(link)
+                    try:
 
-                    if not article:
-                        continue
+                        article=Article(link)
+                        article.download()
+                        article.parse()
 
-                    summary = summarize(article)
+                        text=article.text
 
-                    title_th = translate(title)
-                    summary_th = translate(summary)
+                        summary=summarize(text)
 
-                    results.append({
+                        results.append({
 
-                        "ticker": stock,
-                        "title": title_th,
-                        "summary": summary_th,
-                        "link": link
+                        "ticker":stock,
+                        "title":translator.translate(title),
+                        "summary":translator.translate(summary),
+                        "link":link
 
-                    })
+                        })
+
+                    except:
+                        pass
 
     return results
