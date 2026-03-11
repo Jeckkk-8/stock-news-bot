@@ -2,6 +2,7 @@ import requests
 import time
 import threading
 import os
+from datetime import datetime
 from flask import Flask
 
 from config import TOKEN,CHAT_ID
@@ -51,10 +52,12 @@ def breaking_news():
 
     for item in news:
 
-        sentiment=analyze(item["summary"])
+        now=datetime.now().strftime("%H:%M")
 
-        msg=f"""
+msg=f"""
 ⚡ ข่าวด่วนตลาดหุ้น
+
+🕒 {now}
 
 🏢 {item['ticker']}
 
