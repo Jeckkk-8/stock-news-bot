@@ -41,16 +41,16 @@ def bot_loop():
             sentiment = analyze(item["title"])
 
             msg=f"""
-⚡ ข่าวหุ้น
+⚡ ข่าวด่วนตลาดหุ้น
 
 🏢 {item['ticker']}
 
-{item['title']}
+📰 {item['title']}
 
 📄 สรุปข่าว
 {item['summary']}
 
-🔗 Source
+🔗 แหล่งข่าว
 {item['link']}
 """
 
