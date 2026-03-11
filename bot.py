@@ -21,14 +21,13 @@ def send_telegram(msg):
 
 def bot_loop():
 
-    print("Investor Terminal started")
+    print("bot loop started")
 
     while True:
 
-        send_telegram("🚀 BOT ALIVE")
+        send_telegram("🚀 Investor Terminal Online")
 
         time.sleep(600)
-
 
 if __name__ == "__main__":
 
