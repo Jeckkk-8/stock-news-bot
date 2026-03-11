@@ -10,6 +10,5 @@ STOCKS=[
 RSS_FEEDS=[
 "https://feeds.reuters.com/reuters/businessNews",
 "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-"https://finance.yahoo.com/news/rssindex",
-"https://seekingalpha.com/market_currents.xml"
+"https://finance.yahoo.com/news/rssindex"
 ]
