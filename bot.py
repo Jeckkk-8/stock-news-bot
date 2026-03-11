@@ -45,18 +45,26 @@ def morning_report():
 
         send(msg)
 
-
+if len(SEEN_NEWS)>500:
+    SEEN_NEWS.clear()
 def breaking_news():
 
     news = fetch_news()
 
     for item in news:
 
+        link = item["link"]
+
+        if link in SEEN_NEWS:
+            continue
+
+        SEEN_NEWS.add(link)
+
         sentiment = analyze(item["summary"])
 
         now = datetime.now().strftime("%H:%M")
 
-        msg = f"""
+        msg=f"""
 ⚡ ข่าวด่วนตลาดหุ้น
 
 🕒 {now}
@@ -71,8 +79,10 @@ def breaking_news():
 📄 สรุปข่าว
 {item['summary']}
 
-🔗 แหล่งข่าว
-{item['link']}
+📰 Source
+{item['source']}
+
+🔗 {item['link']}
 """
 
         send(msg)
