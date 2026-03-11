@@ -7,7 +7,7 @@ from flask import Flask
 from textblob import TextBlob
 
 TOKEN="8692112101:AAHa6X-3bCXpzRRsrbNGFNAM9-W6nLGNaHo"
-CHAT_ID="PUT_CHAT_ID"
+CHAT_ID="8386698996"
 
 app = Flask(__name__)
 
