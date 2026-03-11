@@ -10,7 +10,7 @@ from news_engine import fetch_news
 from sentiment_engine import analyze
 from alpha_brief import generate
 from market_engine import premarket_scan
-
+SEEN_NEWS=set()
 app = Flask(__name__)
 
 @app.route("/")
