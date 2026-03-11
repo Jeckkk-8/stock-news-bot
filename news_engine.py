@@ -1,90 +1,75 @@
 import feedparser
 from newspaper import Article
 from deep_translator import GoogleTranslator
-from config import RSS_FEEDS,STOCKS
+from config import RSS_FEEDS, STOCKS
 
-SOURCE_MAP={
-"reuters":"Reuters",
-"cnbc":"CNBC",
-"yahoo":"Yahoo Finance",
-"seekingalpha":"Seeking Alpha",
-"investing":"Investing.com"
+translator = GoogleTranslator(source="auto", target="th")
+
+SOURCE_MAP = {
+"reuters": "Reuters",
+"cnbc": "CNBC",
+"yahoo": "Yahoo Finance",
+"seekingalpha": "Seeking Alpha",
+"investing": "Investing.com"
 }
-
-COMPANY_NAMES={
-"NVDA":"nvidia",
-"AMZN":"amazon",
-"MSFT":"microsoft",
-"GOOGL":"google",
-"META":"meta",
-"TSM":"tsmc",
-"PLTR":"palantir",
-"CRWD":"crowdstrike",
-"LLY":"eli lilly",
-"RKLB":"rocket lab",
-"AVGO":"broadcom",
-"VRT":"vertiv",
-"CEG":"constellation",
-"OKLO":"oklo",
-"RBRK":"rubrik"
-}
-
-translator=GoogleTranslator(source="auto",target="th")
 
 def summarize(text):
 
-    sentences=text.split(". ")
+    sentences = text.split(". ")
 
     return ". ".join(sentences[:5])
 
 
 def fetch_news():
 
-    results=[]
+    results = []
 
     for feed in RSS_FEEDS:
 
-        data=feedparser.parse(feed)
+        data = feedparser.parse(feed)
 
         for entry in data.entries:
 
-            title=entry.title
-            link=entry.link
+            title = entry.title
+            link = entry.link
 
             for stock in STOCKS:
 
-                company=COMPANY_NAMES[stock]
-
-                if stock.lower() in title.lower() or company in title.lower():
+                if stock.lower() in title.lower():
 
                     try:
 
-                        article=Article(link)
+                        article = Article(link)
                         article.download()
                         article.parse()
 
-                        text=article.text
+                        text = article.text
 
-                        summary=summarize(text)
+                        summary = summarize(text)
 
-                        source="News"
+                        title_th = translator.translate(title)
+                        summary_th = translator.translate(summary)
 
-                     for key in SOURCE_MAP:
+                        source = "News"
 
-                         if key in link.lower():
+                        for key in SOURCE_MAP:
 
-                            source=SOURCE_MAP[key]
+                            if key in link.lower():
 
-                            results.append({
+                                source = SOURCE_MAP[key]
 
-                            "ticker":stock,
-                            "title":title_th,
-                            "summary":summary_th,
-                            "link":link,
-                            "source":source
+                        results.append({
 
-})
+                            "ticker": stock,
+                            "title": title_th,
+                            "summary": summary_th,
+                            "link": link,
+                            "source": source
+
+                        })
+
                     except:
+
                         pass
 
     return results
