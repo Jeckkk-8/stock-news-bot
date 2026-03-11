@@ -1,3 +1,7 @@
+from news_engine import fetch_news
+from sentiment_engine import analyze
+from alpha_brief import generate
+from config import TOKEN,CHAT_ID
 import requests
 import feedparser
 import time
@@ -25,7 +29,7 @@ def bot_loop():
 
     while True:
 
-        check_news()
+news = fetch_news()
 
         time.sleep(300)  # เช็คข่าวทุก 5 นาที
 if __name__ == "__main__":
