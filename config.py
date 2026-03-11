@@ -8,7 +8,20 @@ STOCKS=[
 ]
 
 RSS_FEEDS=[
+
+# Reuters
 "https://feeds.reuters.com/reuters/businessNews",
+
+# Bloomberg (ผ่าน Yahoo)
+"https://finance.yahoo.com/news/rssindex",
+
+# CNBC
 "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-"https://finance.yahoo.com/news/rssindex"
+
+# Seeking Alpha
+"https://seekingalpha.com/market_currents.xml",
+
+# Investing
+"https://www.investing.com/rss/news.rss"
+
 ]
