@@ -12,7 +12,42 @@ SOURCE_MAP = {
 "seekingalpha": "Seeking Alpha",
 "investing": "Investing.com"
 }
+IMPACT_KEYWORDS=[
 
+"earnings",
+"guidance",
+"upgrade",
+"downgrade",
+"rating",
+"contract",
+"deal",
+"partnership",
+"acquisition",
+"merger",
+"ai",
+"chip",
+"semiconductor",
+"data center",
+"forecast",
+"lawsuit",
+"investigation",
+"regulation",
+"ban",
+"sanction"
+
+]
+def has_market_impact(text):
+
+    text=text.lower()
+
+    for word in IMPACT_KEYWORDS:
+
+        if word in text:
+
+            return True
+
+    return False
+    
 def summarize(text):
 
     sentences = text.split(". ")
@@ -46,6 +81,9 @@ def fetch_news():
                         text = article.text
 
                         summary = summarize(text)
+
+                if not has_market_impact(summary):
+                        continue
 
                         title_th = translator.translate(title)
                         summary_th = translator.translate(summary)
